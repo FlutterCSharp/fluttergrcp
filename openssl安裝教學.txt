@@ -1,0 +1,26 @@
+教學網址
+http://seanyyz.blogspot.com/2017/07/windows-openssl-110.html
+https://developers.refinitiv.com/en/article-catalog/article/how-to-build-openssl--zlib--and-curl-libraries-on-windows
+https://blog.miniasp.com/post/2019/02/25/Creating-Self-signed-Certificate-using-OpenSSL
+
+步驟:
+1.建立資料夾D:\openssl
+2.先開啟x86 Native Tools Command Prompt for VS 2019
+3.下指令
+perl -v
+nasm -v
+perl Configure VC-WIN64A no-asm --prefix=D:\openssl
+nmake
+nmake test
+nmake install
+
+必須產生WEB與ENVOY的SSL網域憑證否則無法連接
+WEB:
+openssl3 req -x509 -new -nodes -sha256 -utf8 -days 3650 -newkey rsa:4096 -keyout key.key -out cert.crt -config ssl.conf
+openssl3 pkcs12 -export -in cert.crt -inkey key.key -out cert.pfx
+ENVOY:
+openssl3 req -x509 -new -nodes -sha256 -utf8 -days 3650 -newkey rsa:4096 -keyout key-server.key -out cert-server.crt -config ssl-server.conf
+openssl3 pkcs12 -export -in cert-server.crt -inkey key-server.key -out cert-server.pfx
+
+WINDOS IP 轉 WSL
+https://matters.news/@louis0420/331498-%E7%B6%B2%E9%A0%81%E9%96%8B%E7%99%BC-%E8%A8%AD%E5%AE%9Aws-l2-%E9%96%8B%E6%94%BE-local-network-%E9%80%A3%E7%B7%9A-bafyreigp6eu443wojgwdyyqvfb77ephjsu4nmee6dpcbiwkcrzoxoyldfe
